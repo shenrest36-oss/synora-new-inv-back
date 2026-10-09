@@ -2,6 +2,10 @@ FROM node:24-bookworm-slim
 
 WORKDIR /app
 
+# Bring runtime environment variables into the container when using a local .env file.
+# Keep secrets out of Git; this is only for local/private container runs.
+COPY .env* ./
+
 # Prisma requires OpenSSL libraries at runtime.
 # Debian bookworm ships libssl3, not libssl1.1, so keep the compatible package set.
 RUN apt-get update && apt-get install -y --no-install-recommends openssl ca-certificates && rm -rf /var/lib/apt/lists/*
